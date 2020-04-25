@@ -6,7 +6,7 @@ module.exports = {
     client: 'sqlite3',
     useNullAsDefault: true,
     connection: {
-      filename: './fitness-anywhere.db3'
+      filename: './data/fitness-anywhere.db3'
     },
     // needed when using foreign keys
     pool: {
@@ -14,6 +14,12 @@ module.exports = {
         // runs after a connection is made to the sqlite engine
         conn.run('PRAGMA foreign_keys = ON', done); // turn on FK enforcement
       },
+    },
+    migrations: {
+      directory: "./data/migrations",
+    },
+    seeds: {
+      directory: "./data/seeds",
     }
   },
 
@@ -25,10 +31,10 @@ module.exports = {
       max: 10
     },
     migrations: {
-      directory: "./migrations",
+      directory: "./data/migrations",
     },
     seeds: {
-      directory: "./seeds",
+      directory: "./data/seeds",
     }
   }
 
