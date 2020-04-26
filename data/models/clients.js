@@ -18,11 +18,14 @@ const update = async (id, changes) => {
     return findById(resId);
 }
 
+const findClasses = client_id => db('classes').join('class_clients', { client_id });
+
 module.exports = {
     findAll,
     findBy,
     findById,
     add,
     remove,
-    update
+    update,
+    findClasses
 }

@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const generateToken = require('../../../utils/generateToken');
 
 const Instructor = require('../../../../data/models/instructors');
-
+    
 // @route   /api/auth/instructors/register
 // @desc    Register instructor
 router.post('/register', async (req, res, next) => {
