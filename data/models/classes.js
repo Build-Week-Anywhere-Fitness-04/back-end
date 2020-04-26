@@ -19,12 +19,12 @@ const add = async classToRegister => {
 const remove = id => db('classes').where({ id }).del();
 
 const update = async (id, changes) => {
-    const [resId] = await db('classes').where({ id }).update(changes, 'id');
-    return findById(resId);
+    await db('classes').where({ id }).update(changes);
+    return findById(id);
 }
 
 const registerClient = async (client_id, class_id) => {
-    const [id] = await db('class_clients').insert({ class_id, client_id }, 'id');
+    await db('class_clients').insert({ class_id, client_id });
     return findById(class_id);
 }
 

@@ -48,6 +48,7 @@ router.get('/:id', async (req, res, next) => {
 router.get('/:id/classes', async (req, res, next) => {
     try {
         const classes = await Instructor.findClasses(req.params.id);
+        res.json(classes);
     } catch (error) {
         next(error);
     }
@@ -58,8 +59,8 @@ router.get('/:id/classes', async (req, res, next) => {
 router.post('/:id/classes', verifyClassFields, async (req, res, next) => {
     try {
         const registeredClass = await Class.add({
+           ...req.body,
            instructor_id: req.params.id,
-           ...req.body
         });
         res.status(201).json(registeredClass);
     } catch (error) {
@@ -72,14 +73,6 @@ router.post('/:id/classes', verifyClassFields, async (req, res, next) => {
 router.put('/:id/classes/:class_id', verifyClassFields, async (req, res, next) => {
     try {
         const { class_id } = req.params;
-
-        // verify if class_id is a valid ID - MIDDLEWARE CREATED //TODO delete this after testing it
-        // let currentClass = await Class.findById(class_id);
-        // if (!classToEdit) {
-        //     return res.status(401).json({
-        //         errorMessage: 'Invalid class ID'
-        //     });
-        // }
         
         // update class
         const updatedClass = await Class.update(class_id, {
@@ -92,8 +85,6 @@ router.put('/:id/classes/:class_id', verifyClassFields, async (req, res, next) =
     }
 });
 
-// TODO Remove class
-
 // @route   DELETE /api/instructors/:id/classes/:class_id
 // @desc    Delete a class
 router.delete('/:id/classes/:class_id', async (req, res, next) => {
@@ -101,8 +92,7 @@ router.delete('/:id/classes/:class_id', async (req, res, next) => {
         const { class_id } = req.params;
         
         // delete class
-        const response = await Class.remove(class_id);
-        console.log(response); // TODO test it!!
+        await Class.remove(class_id);
         res.status(200).json({
             message: 'Class successfully deleted'
         });
