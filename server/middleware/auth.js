@@ -15,7 +15,13 @@ module.exports = (req, res, next) => {
             if (error) {
                 res.status(401).json({ errorMessage: 'Token is not valid' });
             } else {
-                req.user = decoded;
+                // decoded is gonna be a client or an instructor obj
+                if (decoded.client) {
+                    req.client = decoded.client;
+                } else if (decoded.instructor) {
+                    req.instructor = decoded.instructor;
+                }
+
                 next();
             }
         });

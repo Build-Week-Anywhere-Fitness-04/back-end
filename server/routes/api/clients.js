@@ -4,6 +4,16 @@ const verifyClientId = require('../../middleware/verifyClientId');
 
 router.use('/:id', verifyClientId);
 
+router.use('/', (req, res, next) => {
+    if (req.client) {
+        next();
+    } else {
+        res.status(401).json({
+            errorMessage: 'Invalid credentials'
+        });
+    }
+});
+
 // @route   GET /api/clients
 // @desc    Return all clients
 router.get('/', async (req, res, next) => {
@@ -15,12 +25,12 @@ router.get('/', async (req, res, next) => {
     }
 });
 
-// @route   GET /api/clients
+// @route   GET /api/clients/:id
 // @desc    Return an specific client
 router.get('/:id', async (req, res, next) => {
     try {
-        const client = await Client.findById(req.params.id);
-        res.json(client);
+        // req.client is defined in verifyClientId middleware
+        res.json(req.client);
     } catch (error) {
         next(error);
     }

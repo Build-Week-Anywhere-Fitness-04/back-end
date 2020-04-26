@@ -13,10 +13,10 @@ server.use(express.json());
 server.get('/', (req, res) => res.send('API running'));
 
 // Define routes
-server.use('/api/auth', require('./routes/api/auth'));
+server.use('/api/auth/', require('./routes/api/auth'));
 server.use('/api/instructors', auth, require('./routes/api/instructors'));
-server.use('/api/clients', require('./routes/api/clients'));
-server.use('/api/classes', auth, require('./routes/api/classes'));
+server.use('/api/clients', auth, require('./routes/api/clients'));
+// server.use('/api/classes/2', auth, require('./routes/api/classes'));
 
 server.use(errorMiddleware);
 

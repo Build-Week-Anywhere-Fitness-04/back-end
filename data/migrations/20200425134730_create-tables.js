@@ -6,7 +6,7 @@ exports.up = function(knex) {
         tbl.string('password').notNullable();
         tbl.string('first_name').notNullable();
         tbl.string('last_name').notNullable();
-        tbl.string('email').notNullable();
+        tbl.string('email').notNullable().unique();
         tbl.string('phone');
     })
     .createTable('clients', tbl => {
@@ -15,7 +15,7 @@ exports.up = function(knex) {
         tbl.string('password').notNullable();
         tbl.string('first_name').notNullable();
         tbl.string('last_name').notNullable();
-        tbl.string('email').notNullable();
+        tbl.string('email').notNullable().unique();
         tbl.string('phone');
     })
     .createTable('classes', tbl => {

@@ -9,6 +9,6 @@ module.exports = async (req, res, next) => {
             errorMessage: 'Invalid ID'
         });
     }
-
+    req.client = client;
     next();
 }
