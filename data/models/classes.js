@@ -6,9 +6,14 @@ const findBy = filter => db('classes').where(filter);
 
 const findById = id => db('classes').where({ id }).first();
 
-const add = async client => {
-    const [id] = await db('classes').insert(client, 'id');
-    return findById(id);
+const add = async classToRegister => {
+    try {
+        const [id] = await db('classes').insert(classToRegister, 'id');    
+        return findById(id);
+    } catch (error) {
+        console.log(error);
+    }
+    
 }
 
 const remove = id => db('classes').where({ id }).del();
@@ -18,8 +23,8 @@ const update = async (id, changes) => {
     return findById(resId);
 }
 
-const registerClient = (client_id, class_id) => {
-    const [id] = db('class_clients').insert({ class_id, client_id }, 'id');
+const registerClient = async (client_id, class_id) => {
+    const [id] = await db('class_clients').insert({ class_id, client_id }, 'id');
     return findById(class_id);
 }
 
