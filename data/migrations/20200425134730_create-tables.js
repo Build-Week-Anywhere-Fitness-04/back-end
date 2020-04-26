@@ -32,9 +32,10 @@ exports.up = function(knex) {
         tbl.datetime('start_time').notNullable();
         tbl.string('location').notNullable();
         tbl.enu('intensity', [1,2,3,4,5]).notNullable();
-        tbl.enu('status', ['SCHEDULED', 'CANCELED'])
+        tbl.enu('status', ['CONFIRMED', 'CANCELED'])
             .notNullable()
-            .defaultTo('SCHEDULED');
+            .defaultTo('CONFIRMED');
+        tbl.decimal('price').notNullable();
         tbl.text('description');
         tbl.integer('duration');
         tbl.integer('max_class_size');
@@ -56,9 +57,9 @@ exports.up = function(knex) {
             .inTable('clients')
             .onUpdate('CASCADE')
             .onDelete('CASCADE');
-        tbl.enu('status', ['REGISTERED', 'CANCELED'])
+        tbl.enu('status', ['CONFIRMED', 'CANCELED'])
             .notNullable()
-            .defaultTo('REGISTERED');
+            .defaultTo('CONFIRMED');
         tbl.unique(['class_id','client_id']);
     });
 };

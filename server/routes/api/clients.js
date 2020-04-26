@@ -1,9 +1,9 @@
 const router = require('express').Router();
 const Client = require('../../../data/models/clients');
 const Class = require('../../../data/models/classes');
-const verifyClientId = require('../../middleware/verifyClientId');
+const verifyId = require('../../middleware/verifyClientId');
 
-router.use('/:id', verifyClientId);
+router.use('/:id', verifyId);
 
 router.use('/', (req, res, next) => {
     if (req.client) {
@@ -30,17 +30,16 @@ router.get('/', async (req, res, next) => {
 // @desc    Return an specific client
 router.get('/:id', async (req, res, next) => {
     try {
-        // req.client is defined in verifyClientId middleware
-        const client = await Client.findById(req.client.id);
+        const client = await Client.findById(req.params.id);
         res.json(client);
     } catch (error) {
         next(error);
     }
 });
 
-// @route   GET /api/clients/:id/classes
-// @desc    Return classes from an specific client
-router.get('/:id/classes', async (req, res, next) => {
+// @route   POST /api/clients/:id/classes
+// @desc    Client register to a class
+router.post('/:id/classes', async (req, res, next) => {
     try {
         const { client_id, class_id } = req.body;
 
@@ -57,18 +56,15 @@ router.get('/:id/classes', async (req, res, next) => {
     }
 });
 
-
-// @route   POST /api/clients/:id/classes
-// @desc    Client register to a class
-router.post('/:id/classes', async (req, res, next) => {
+// @route   Get /api/clients/:id/classes
+// @desc    Return classes from an specific client
+router.get('/:id/classes', async (req, res, next) => {
     try {
-        const classes = await Client.findClasses(req.client.id);
+        const classes = await Client.findClasses(req.params.id);
         res.json(classes);
     } catch (error) {
         next(error);
     }
 });
-
-
 
 module.exports = router;
