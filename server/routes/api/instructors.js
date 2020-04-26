@@ -70,5 +70,6 @@ router.post('/:id/classes', async (req, res, next) => {
 });
 
 // TODO Edit class
+// TODO Remove class
 
 module.exports = router;
