@@ -6,8 +6,9 @@ const Class = require('../../../data/models/classes');
 const verifyId = require('../../middleware/verifyInstructorId');
 const verifyClassId = require('../../middleware/verifyClassId');
 const verifyClassFields = require('../../middleware/verifyClassRequiredFields');
+const verifyInstructorIdClassId = require('../../middleware/verifyInstructorIdClassId');
 
-
+// Middlewares
 router.use('/', (req, res, next) => {
     if (req.instructor) {
         next();
@@ -20,6 +21,7 @@ router.use('/', (req, res, next) => {
 
 router.use('/:id', verifyId);
 router.use('/:id/classes/:class_id', verifyClassId);
+router.use('/:id/classes/:class_id', verifyInstructorIdClassId);
 
 // @route   GET /api/instructors
 // @desc    Return all instructors
@@ -68,6 +70,18 @@ router.post('/:id/classes', verifyClassFields, async (req, res, next) => {
     }
 });
 
+// @route   GET /api/instructors/:id/classes/:class_id
+// @desc    Return an specific class
+router.get('/:id/classes/:class_id', async (req, res, next) => {
+    try {
+        const { class_id } = req.params;
+        const currentClass = await Class.findById(class_id);
+        res.json(currentClass);
+    } catch (error) {
+        next(error);
+    }
+});
+
 // @route   PUT /api/instructors/:id/classes/:class_id
 // @desc    Edit a class
 router.put('/:id/classes/:class_id', verifyClassFields, async (req, res, next) => {
@@ -106,9 +120,10 @@ router.delete('/:id/classes/:class_id', async (req, res, next) => {
 router.get('/:id/classes/:class_id/clients', async (req, res, next) => {
     try {
         const { class_id } = req.params;
+
+        // TODO add verification class_id is a class by id instructor
         
         // get clients from class with class_id
-        console.log(class_id);
         const clients = await Class.findClients(class_id);
         res.status(200).json(clients);
     } catch (error) {
