@@ -28,6 +28,12 @@ const registerClient = async (client_id, class_id) => {
     return findById(class_id);
 }
 
+const findClients = class_id => (
+    db('class_clients').where({ class_id })
+        .join('clients', 'clients.id', '=', 'class_clients.client_id')
+        .select('client_id', 'username', 'first_name', 'last_name', 'email', 'phone', 'status')
+);
+
 module.exports = {
     findAll,
     findBy,
@@ -35,5 +41,6 @@ module.exports = {
     add,
     remove,
     update,
-    registerClient
+    registerClient,
+    findClients
 }

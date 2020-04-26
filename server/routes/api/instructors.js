@@ -101,4 +101,19 @@ router.delete('/:id/classes/:class_id', async (req, res, next) => {
     }
 });
 
+// @route   GET /api/instructors/:id/classes/:class_id
+// @desc    Return clients of an specific class
+router.get('/:id/classes/:class_id/clients', async (req, res, next) => {
+    try {
+        const { class_id } = req.params;
+        
+        // get clients from class with class_id
+        console.log(class_id);
+        const clients = await Class.findClients(class_id);
+        res.status(200).json(clients);
+    } catch (error) {
+        next(error);
+    }
+});
+
 module.exports = router;
