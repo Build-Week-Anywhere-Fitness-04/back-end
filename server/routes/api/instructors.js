@@ -51,9 +51,9 @@ router.get('/:id/classes', async (req, res, next) => {
 // @desc    Add a new class
 router.post('/:id/classes', async (req, res, next) => {
     try {
-        const { name, type, start_time, location, intensity } = req.body;
+        const { name, type, start_time, location, intensity, price } = req.body;
 
-        if (!name || !type || !start_time || !location || !intensity) {
+        if (!name || !type || !start_time || !location || !intensity || !price) {
             return res.status(401).json({
                 errorMessage: 'Missing required field'
             });
