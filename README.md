@@ -1,1 +1,1 @@
-# back-end
+# Fitness Anywhere API
