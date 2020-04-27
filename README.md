@@ -28,8 +28,8 @@ Returns:
 ```
 <br />
 
->### POST /api/auth/instructors/login
->### POST /api/auth/clients/login
+>#### POST /api/auth/instructors/login
+>#### POST /api/auth/clients/login
 ```
 Expects:
 {
@@ -48,7 +48,7 @@ Returns:
 # Classes routes
 
 ## - Return all classes
->### GET /api/classes/
+>#### GET /api/classes/
 ```
 Returns:
 [
@@ -68,6 +68,29 @@ Returns:
     }
 ]
 ```
+<br />
+
+## - Return specific class
+>#### GET /api/classes/:id
+```
+not implemented yet
+```
+<br />
+
+## - Return intructor from specific class
+>#### GET /api/classes/:id/instructor
+```
+not implemented yet
+```
+<br />
+
+## - Return clients from specific class
+>#### GET /api/classes/:id/clients
+```
+not implemented yet
+```
+
+
 
 # Instructors routes
 # Clients routes
