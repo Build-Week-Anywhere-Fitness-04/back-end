@@ -39,7 +39,10 @@ router.post('/register', async (req, res, next) => {
             password: hash
         });
 
-        res.status(201).json(instructor);
+        res.status(201).json({
+            id: instructor.id,
+            username: instructor.username
+        });
     } catch (error) {
         next(error);
     }
