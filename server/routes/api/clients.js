@@ -56,6 +56,26 @@ router.delete('/:id', async (req, res, next) => {
     }
 });
 
+// @route   PUT /api/clients/:id
+// @desc    Update a client
+router.put('/:id', async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        
+        // required fields
+        const { username, password, first_name, last_name, email } = req.body;
+        if (!username || !password || !first_name || !last_name || !email) {
+            return res.status(401).json({
+                errorMessage: 'Missing required field'
+            });
+        }
+        const client = await Client.update(id, req.body);
+        res.json(client);
+    } catch (error) {
+        next(error);
+    }
+});
+
 // @route   POST /api/clients/:id/classes
 // @desc    Client register to a class
 router.post('/:id/classes', async (req, res, next) => {

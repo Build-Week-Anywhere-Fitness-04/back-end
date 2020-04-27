@@ -14,8 +14,8 @@ const add = async client => {
 const remove = id => db('clients').where({ id }).del();
 
 const update = async (id, changes) => {
-    const [resId] = await db('clients').where({ id }).update(changes, 'id');
-    return findById(resId);
+    await db('clients').where({ id }).update(changes, 'id');
+    return findById(id);
 }
 
 const findClasses = client_id => (
