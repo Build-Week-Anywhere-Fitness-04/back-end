@@ -28,8 +28,8 @@ Returns:
 ```
 <br />
 
->### POST /api/auth/instructors/login
->### POST /api/auth/clients/login
+>#### POST /api/auth/instructors/login
+>#### POST /api/auth/clients/login
 ```
 Expects:
 {
@@ -48,7 +48,7 @@ Returns:
 # Classes routes
 
 ## - Return all classes
->### GET /api/classes/
+>#### GET /api/classes/
 ```
 Returns:
 [
@@ -65,9 +65,47 @@ Returns:
         "description": <string> || null,
         "duration": <integer> || null, // minutes
         "max_class_size": <integer> || null
-    }
+    },
+    ...
 ]
+```
+<br />
+
+## - Return specific class
+>#### GET /api/classes/:id
+```
+not implemented yet
+```
+<br />
+
+## - Return intructor from specific class
+>#### GET /api/classes/:id/instructor
+```
+not implemented yet
+```
+<br />
+
+## - Return clients from specific class
+>#### GET /api/classes/:id/clients
+```
+not implemented yet
 ```
 
 # Instructors routes
+## - Return all instructors
+>#### GET /api/instructors
+```
+[
+    {
+        "id": <integer>,
+        "username": <string>,
+        "password": <string>,
+        "first_name": "Kevin",
+        "last_name": "Malone",
+        "email": "iwantcookies@dundermifflin.com",
+        "phone": "5708794565"
+    },
+    ...
+]
+```
 # Clients routes

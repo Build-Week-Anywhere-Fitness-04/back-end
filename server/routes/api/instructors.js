@@ -7,18 +7,9 @@ const verifyId = require('../../middleware/verifyInstructorId');
 const verifyClassId = require('../../middleware/verifyClassId');
 const verifyClassFields = require('../../middleware/verifyClassRequiredFields');
 const verifyIdPermissionToClassId = require('../../middleware/verifyIdPermissionToClassId');
+const verifyInstructorToken = require('../../middleware/verifyInstructorToken');
 
 // Middlewares
-router.use('/', (req, res, next) => {
-    if (req.instructor) {
-        next();
-    } else {
-        res.status(401).json({
-            errorMessage: 'Invalid credentials'
-        });
-    }
-});
-
 router.use('/:id', verifyId);
 router.use('/:id/classes/:class_id', verifyClassId);
 router.use('/:id/classes/:class_id', verifyIdPermissionToClassId);
@@ -44,6 +35,9 @@ router.get('/:id', async (req, res, next) => {
         next(error);
     }
 });
+
+// Middleware that guarantees user logged in is an instructor
+router.use('/', verifyInstructorToken);
 
 // @route   GET /api/instructors/:id/classes
 // @desc    Return all classes by instructor

@@ -5,16 +5,10 @@ const Class = require('../../../data/models/classes');
 const verifyId = require('../../middleware/verifyClientId');
 const verifyClassId = require('../../middleware/verifyClassId');
 const verifyIdPermissionToClassId = require('../../middleware/verifyIdPermissionToClassId');
+const verifyClientToken = require('../../middleware/verifyClientToken');
 
-router.use('/', (req, res, next) => {
-    if (req.client) {
-        next();
-    } else {
-        res.status(401).json({
-            errorMessage: 'Invalid credentials'
-        });
-    }
-});
+// Middleware that guarantees user logged in is a client
+router.use('/', verifyClientToken);
 
 router.use('/:id', verifyId);
 router.use('/:id/classes/:class_id', verifyClassId);
