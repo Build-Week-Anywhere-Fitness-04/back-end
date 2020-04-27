@@ -6,7 +6,7 @@ const Class = require('../../../data/models/classes');
 const verifyId = require('../../middleware/verifyInstructorId');
 const verifyClassId = require('../../middleware/verifyClassId');
 const verifyClassFields = require('../../middleware/verifyClassRequiredFields');
-const verifyInstructorIdClassId = require('../../middleware/verifyInstructorIdClassId');
+const verifyIdPermissionToClassId = require('../../middleware/verifyIdPermissionToClassId');
 
 // Middlewares
 router.use('/', (req, res, next) => {
@@ -21,7 +21,7 @@ router.use('/', (req, res, next) => {
 
 router.use('/:id', verifyId);
 router.use('/:id/classes/:class_id', verifyClassId);
-router.use('/:id/classes/:class_id', verifyInstructorIdClassId);
+router.use('/:id/classes/:class_id', verifyIdPermissionToClassId);
 
 // @route   GET /api/instructors
 // @desc    Return all instructors
@@ -71,7 +71,7 @@ router.post('/:id/classes', verifyClassFields, async (req, res, next) => {
 });
 
 // @route   GET /api/instructors/:id/classes/:class_id
-// @desc    Return an specific class
+// @desc    Return an specific class if instructor is the instructor of the class
 router.get('/:id/classes/:class_id', async (req, res, next) => {
     try {
         const { class_id } = req.params;
@@ -121,8 +121,6 @@ router.get('/:id/classes/:class_id/clients', async (req, res, next) => {
     try {
         const { class_id } = req.params;
 
-        // TODO add verification class_id is a class by id instructor
-        
         // get clients from class with class_id
         const clients = await Class.findClients(class_id);
         res.status(200).json(clients);

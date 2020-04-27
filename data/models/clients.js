@@ -21,8 +21,13 @@ const update = async (id, changes) => {
 const findClasses = client_id => (
     db('class_clients').where({ client_id })
         .join('classes', 'classes.id', '=', 'class_clients.class_id')
-        .select('*')
 );
+
+const findClassById = (client_id, class_id) => (
+    db('class_clients').where({ client_id, class_id })
+        .join('classes', 'classes.id', '=', 'class_clients.class_id')
+        .first()
+)
 
 module.exports = {
     findAll,
@@ -31,5 +36,6 @@ module.exports = {
     add,
     remove,
     update,
-    findClasses
+    findClasses,
+    findClassById
 }
