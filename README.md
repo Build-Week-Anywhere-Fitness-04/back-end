@@ -65,7 +65,8 @@ Returns:
         "description": <string> || null,
         "duration": <integer> || null, // minutes
         "max_class_size": <integer> || null
-    }
+    },
+    ...
 ]
 ```
 <br />
@@ -90,7 +91,21 @@ not implemented yet
 not implemented yet
 ```
 
-
-
 # Instructors routes
+## - Return all instructors
+>#### GET /api/instructors
+```
+[
+    {
+        "id": <integer>,
+        "username": <string>,
+        "password": <string>,
+        "first_name": "Kevin",
+        "last_name": "Malone",
+        "email": "iwantcookies@dundermifflin.com",
+        "phone": "5708794565"
+    },
+    ...
+]
+```
 # Clients routes
