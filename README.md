@@ -3,6 +3,11 @@
 > ## https://fitness-anywhere.herokuapp.com/
 
 # Auth
+`Testing users:`
+-               | username      | password      |
+--------------- | ------------- | ------------- |
+**instructor**  | michaelscott  | bestbossever  |
+**client**      | ryanhoward    | forevertemp   |
 
 ## - Instructor and Client register and login routes
 
