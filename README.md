@@ -4,7 +4,7 @@
 
 # Auth
 `Testing users:`
--               | username      | password      |
+|               | username      | password      |
 --------------- | ------------- | ------------- |
 **instructor**  | michaelscott  | bestbossever  |
 **client**      | ryanhoward    | forevertemp   |
