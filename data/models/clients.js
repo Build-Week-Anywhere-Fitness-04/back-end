@@ -29,6 +29,10 @@ const findClassById = (client_id, class_id) => (
         .first()
 )
 
+const removeClass = (client_id, class_id) => (
+    db('class_clients').where({ client_id, class_id }).del()
+)
+
 module.exports = {
     findAll,
     findBy,
@@ -37,5 +41,6 @@ module.exports = {
     remove,
     update,
     findClasses,
-    findClassById
+    findClassById,
+    removeClass
 }

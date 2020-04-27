@@ -64,7 +64,7 @@ router.post('/:id/classes', async (req, res, next) => {
     }
 });
 
-// @route   Get /api/clients/:id/classes
+// @route   GET /api/clients/:id/classes
 // @desc    Return classes from an specific client
 router.get('/:id/classes', async (req, res, next) => {
     try {
@@ -75,13 +75,27 @@ router.get('/:id/classes', async (req, res, next) => {
     }
 });
 
-// @route   Get /api/clients/:id/classes/:class_id
+// @route   GET /api/clients/:id/classes/:class_id
 // @desc    Return a specific class if client is registered in class
 router.get('/:id/classes/:class_id', async (req, res, next) => {
     try {
         const { class_id } = req.params;
         const currentClass = await Class.findById(class_id);
         res.json(currentClass);
+    } catch (error) {
+        next(error);
+    }
+});
+
+// @route   DELETE /api/clients/:id/classes/:class_id
+// @desc    Client remove class
+router.delete('/:id/classes/:class_id', async (req, res, next) => {
+    try {
+        const { id, class_id } = req.params;
+        await Client.removeClass(id, class_id);
+        res.json({
+            message: 'Class successfully deleted'
+        });
     } catch (error) {
         next(error);
     }
