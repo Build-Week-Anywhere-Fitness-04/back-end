@@ -14,11 +14,24 @@ const add = async client => {
 const remove = id => db('clients').where({ id }).del();
 
 const update = async (id, changes) => {
-    const [resId] = await db('clients').where({ id }).update(changes, 'id');
-    return findById(resId);
+    await db('clients').where({ id }).update(changes, 'id');
+    return findById(id);
 }
 
-const findClasses = client_id => db('classes').join('class_clients', { client_id });
+const findClasses = client_id => (
+    db('class_clients').where({ client_id })
+        .join('classes', 'classes.id', '=', 'class_clients.class_id')
+);
+
+const findClassById = (client_id, class_id) => (
+    db('class_clients').where({ client_id, class_id })
+        .join('classes', 'classes.id', '=', 'class_clients.class_id')
+        .first()
+)
+
+const removeClass = (client_id, class_id) => (
+    db('class_clients').where({ client_id, class_id }).del()
+)
 
 module.exports = {
     findAll,
@@ -27,5 +40,7 @@ module.exports = {
     add,
     remove,
     update,
-    findClasses
+    findClasses,
+    findClassById,
+    removeClass
 }

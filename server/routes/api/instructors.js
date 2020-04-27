@@ -1,8 +1,14 @@
 const router = require('express').Router();
+// DB model functions
 const Instructor = require('../../../data/models/instructors');
 const Class = require('../../../data/models/classes');
+// middlewares
 const verifyId = require('../../middleware/verifyInstructorId');
+const verifyClassId = require('../../middleware/verifyClassId');
+const verifyClassFields = require('../../middleware/verifyClassRequiredFields');
+const verifyIdPermissionToClassId = require('../../middleware/verifyIdPermissionToClassId');
 
+// Middlewares
 router.use('/', (req, res, next) => {
     if (req.instructor) {
         next();
@@ -14,6 +20,8 @@ router.use('/', (req, res, next) => {
 });
 
 router.use('/:id', verifyId);
+router.use('/:id/classes/:class_id', verifyClassId);
+router.use('/:id/classes/:class_id', verifyIdPermissionToClassId);
 
 // @route   GET /api/instructors
 // @desc    Return all instructors
@@ -42,6 +50,7 @@ router.get('/:id', async (req, res, next) => {
 router.get('/:id/classes', async (req, res, next) => {
     try {
         const classes = await Instructor.findClasses(req.params.id);
+        res.json(classes);
     } catch (error) {
         next(error);
     }
@@ -49,19 +58,11 @@ router.get('/:id/classes', async (req, res, next) => {
 
 // @route   POST /api/instructors/:id/classes
 // @desc    Add a new class
-router.post('/:id/classes', async (req, res, next) => {
+router.post('/:id/classes', verifyClassFields, async (req, res, next) => {
     try {
-        const { name, type, start_time, location, intensity } = req.body;
-
-        if (!name || !type || !start_time || !location || !intensity) {
-            return res.status(401).json({
-                errorMessage: 'Missing required field'
-            });
-        }
-        
         const registeredClass = await Class.add({
+           ...req.body,
            instructor_id: req.params.id,
-           ...req.body
         });
         res.status(201).json(registeredClass);
     } catch (error) {
@@ -69,7 +70,63 @@ router.post('/:id/classes', async (req, res, next) => {
     }
 });
 
-// TODO Edit class
-// TODO Remove class
+// @route   GET /api/instructors/:id/classes/:class_id
+// @desc    Return an specific class if instructor is the instructor of the class
+router.get('/:id/classes/:class_id', async (req, res, next) => {
+    try {
+        const { class_id } = req.params;
+        const currentClass = await Class.findById(class_id);
+        res.json(currentClass);
+    } catch (error) {
+        next(error);
+    }
+});
+
+// @route   PUT /api/instructors/:id/classes/:class_id
+// @desc    Edit a class
+router.put('/:id/classes/:class_id', verifyClassFields, async (req, res, next) => {
+    try {
+        const { class_id } = req.params;
+        
+        // update class
+        const updatedClass = await Class.update(class_id, {
+            id: class_id,
+            ...req.body
+        });
+        res.status(200).json(updatedClass);
+    } catch (error) {
+        next(error);
+    }
+});
+
+// @route   DELETE /api/instructors/:id/classes/:class_id
+// @desc    Delete a class
+router.delete('/:id/classes/:class_id', async (req, res, next) => {
+    try {
+        const { class_id } = req.params;
+        
+        // delete class
+        await Class.remove(class_id);
+        res.status(200).json({
+            message: 'Class successfully deleted'
+        });
+    } catch (error) {
+        next(error);
+    }
+});
+
+// @route   GET /api/instructors/:id/classes/:class_id
+// @desc    Return clients of an specific class
+router.get('/:id/classes/:class_id/clients', async (req, res, next) => {
+    try {
+        const { class_id } = req.params;
+
+        // get clients from class with class_id
+        const clients = await Class.findClients(class_id);
+        res.status(200).json(clients);
+    } catch (error) {
+        next(error);
+    }
+});
 
 module.exports = router;

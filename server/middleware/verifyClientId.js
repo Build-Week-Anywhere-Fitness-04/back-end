@@ -9,5 +9,11 @@ module.exports = async (req, res, next) => {
             errorMessage: 'Invalid ID'
         });
     }
+
+    if (req.client.id != id) {
+        return res.status(401).json({
+            errorMessage: 'Logged in client ID does not match with ID passed in URL'
+        });
+    }
     next();
 }
