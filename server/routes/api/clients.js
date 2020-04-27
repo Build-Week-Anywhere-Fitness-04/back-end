@@ -43,6 +43,19 @@ router.get('/:id', async (req, res, next) => {
     }
 });
 
+// @route   DELETE /api/clients/:id
+// @desc    Delete a client
+router.delete('/:id', async (req, res, next) => {
+    try {
+        await Client.remove(req.params.id);
+        res.json({
+            message: 'Client removed successfully'
+        });
+    } catch (error) {
+        next(error);
+    }
+});
+
 // @route   POST /api/clients/:id/classes
 // @desc    Client register to a class
 router.post('/:id/classes', async (req, res, next) => {
