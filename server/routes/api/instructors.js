@@ -81,11 +81,12 @@ router.get('/:id/classes/:class_id', async (req, res, next) => {
 // @desc    Edit a class
 router.put('/:id/classes/:class_id', verifyClassFields, async (req, res, next) => {
     try {
-        const { class_id } = req.params;
+        const { id, class_id } = req.params;
         
         // update class
         const updatedClass = await Class.update(class_id, {
             id: class_id,
+            instructor_id: id,
             ...req.body
         });
         res.status(200).json(updatedClass);

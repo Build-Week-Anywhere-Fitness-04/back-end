@@ -57,13 +57,21 @@ router.put('/:id', async (req, res, next) => {
         const { id } = req.params;
         
         // required fields
-        const { username, password, first_name, last_name, email } = req.body;
-        if (!username || !password || !first_name || !last_name || !email) {
+        const { username, first_name, last_name, email, phone } = req.body;
+        if (!username || !first_name || !last_name || !email) {
             return res.status(401).json({
                 errorMessage: 'Missing required field'
             });
         }
-        const client = await Client.update(id, req.body);
+
+        const client = await Client.update(id, {
+            username,
+            first_name,
+            last_name,
+            email,
+            phone: phone || null
+        });
+        
         res.json(client);
     } catch (error) {
         next(error);
