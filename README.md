@@ -22,8 +22,8 @@ Expects:
 ```
 Returns:
 {
-    id: <integer>
-    username: <string>
+    "id": <integer>
+    "username": <string>
 }
 ```
 <br />
@@ -39,7 +39,7 @@ Expects:
 
 Returns:
 {
-    token: <string>
+    "token": <string>
 }
 ```
 <br />
@@ -176,16 +176,16 @@ Returns:
 ```
 expects:
 {
-    "name": <string>,
-    "type": <string>,
-    "start_time": <string>, // format: "2020-05-02 07:00"
-    "location": <string>,
-    "intensity": <string>, // enum type: ['1','2','3','4','5']
-    "status": <string>, // enum type: ['CONFIRMED','CANCELED']
-    "price": <integer>,
-    "description": <string>, (Optional)
-    "duration": <integer>, (Optional) // minutes
-    "max_class_size": <integer> (Optional)
+    name: <string>,
+    type: <string>,
+    start_time: <string>, // format: "2020-05-02 07:00"
+    location: <string>,
+    intensity: <string>, // enum type: ['1','2','3','4','5']
+    status: <string>, // enum type: ['CONFIRMED','CANCELED']
+    price: <integer>,
+    description: <string>, (Optional)
+    duration: <integer>, (Optional) // minutes
+    max_class_size: <integer> (Optional)
 }
 ```
 ```
@@ -208,7 +208,7 @@ returns:
 <br />
 
 ## - Return instructor's specific class
->#### POST /api/instructors/:id/classes/:class_id
+>#### GET /api/instructors/:id/classes/:class_id
 ```
 returns:
 {
@@ -229,20 +229,20 @@ returns:
 <br />
 
 ## - Update class
->#### POST /api/instructors/:id/classes/:class_id
+>#### PUT /api/instructors/:id/classes/:class_id
 ```
 expects:
 {
-    "name": <string>,
-    "type": <string>,
-    "start_time": <string>, // format: "2020-05-02 07:00"
-    "location": <string>,
-    "intensity": <string>, // enum type: ['1','2','3','4','5']
-    "status": <string>, // enum type: ['CONFIRMED','CANCELED']
-    "price": <integer>,
-    "description": <string>, (Optional)
-    "duration": <integer>, (Optional) // minutes
-    "max_class_size": <integer> (Optional)
+    name: <string>,
+    type: <string>,
+    start_time: <string>, // format: "2020-05-02 07:00"
+    location: <string>,
+    intensity: <string>, // enum type: ['1','2','3','4','5']
+    status: <string>, // enum type: ['CONFIRMED','CANCELED']
+    price: <integer>,
+    description: <string>, (Optional)
+    duration: <integer>, (Optional) // minutes
+    max_class_size: <integer> (Optional)
 }
 ```
 ```
@@ -269,7 +269,7 @@ returns:
 ```
 returns:
 {
-    message: 'Class successfully deleted'
+    "message": 'Class successfully deleted'
 }
 ```
 <br />
@@ -337,7 +337,7 @@ Returns:
 ```
 Returns:
 {
-    message: 'Client removed successfully'
+    "message": 'Client removed successfully'
 }
 ```
 <br />
@@ -347,11 +347,11 @@ Returns:
 ```
 Expects:
 {
-    "username": <string>
-    "first_name": <string>,
-    "last_name": <string>,
-    "email": <string>,
-    "phone": <string> (Optional)
+    username: <string>
+    first_name: <string>,
+    last_name: <string>,
+    email: <string>,
+    phone: <string> (Optional)
 }
 ```
 ```
@@ -446,7 +446,7 @@ Returns:
 ```
 Returns:
 {
-    message: 'Class successfully deleted'
+    "message": 'Class successfully deleted'
 }
 ```
 <br />
