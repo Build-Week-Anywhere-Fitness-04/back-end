@@ -9,5 +9,6 @@ module.exports = async (req, res, next) => {
             errorMessage: 'Invalid class ID'
         });
     }
+    req.class = currentClass;
     next();
 }

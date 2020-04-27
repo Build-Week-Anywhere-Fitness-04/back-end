@@ -16,5 +16,6 @@ module.exports = async (req, res, next) => {
         });
     }
     
+    req.instructor = instructor;
     next();
 }
