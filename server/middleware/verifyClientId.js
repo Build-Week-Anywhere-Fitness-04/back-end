@@ -15,5 +15,7 @@ module.exports = async (req, res, next) => {
             errorMessage: 'Logged in client ID does not match with ID passed in URL'
         });
     }
+
+    req.client = client;
     next();
 }

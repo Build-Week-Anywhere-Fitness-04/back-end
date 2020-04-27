@@ -30,8 +30,8 @@ router.get('/', async (req, res, next) => {
 // @desc    Return an specific client
 router.get('/:id', async (req, res, next) => {
     try {
-        const client = await Client.findById(req.params.id);
-        res.json(client);
+        // req.client is set in verifyClientId middleware
+        res.json(req.client);
     } catch (error) {
         next(error);
     }
@@ -114,9 +114,8 @@ router.get('/:id/classes', async (req, res, next) => {
 // @desc    Return a specific class if client is registered in class
 router.get('/:id/classes/:class_id', async (req, res, next) => {
     try {
-        const { class_id } = req.params;
-        const currentClass = await Class.findById(class_id);
-        res.json(currentClass);
+        // req.class is set in verifyClassId middleware
+        res.json(req.class);
     } catch (error) {
         next(error);
     }

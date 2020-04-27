@@ -9,10 +9,6 @@ const verifyClassFields = require('../../middleware/verifyClassRequiredFields');
 const verifyIdPermissionToClassId = require('../../middleware/verifyIdPermissionToClassId');
 const verifyInstructorToken = require('../../middleware/verifyInstructorToken');
 
-// Middlewares
-router.use('/:id/classes/:class_id', verifyClassId);
-router.use('/:id/classes/:class_id', verifyIdPermissionToClassId);
-
 // @route   GET /api/instructors
 // @desc    Return all instructors
 router.get('/', async (req, res, next) => {
@@ -35,6 +31,9 @@ router.get('/:id', async (req, res, next) => {
     }
 });
 
+// Middlewares
+router.use('/:id/classes/:class_id', verifyClassId);
+router.use('/:id/classes/:class_id', verifyIdPermissionToClassId);
 // Middleware that guarantees user logged in is an instructor
 router.use('/', verifyInstructorToken);
 // Verify if its a valid ID and if it matches with logged instructor ID
@@ -69,9 +68,8 @@ router.post('/:id/classes', verifyClassFields, async (req, res, next) => {
 // @desc    Return an specific class if instructor is the instructor of the class
 router.get('/:id/classes/:class_id', async (req, res, next) => {
     try {
-        const { class_id } = req.params;
-        const currentClass = await Class.findById(class_id);
-        res.json(currentClass);
+        // req.class is set in verifyClassId middleware
+        res.json(req.class);
     } catch (error) {
         next(error);
     }
@@ -85,11 +83,11 @@ router.put('/:id/classes/:class_id', verifyClassFields, async (req, res, next) =
         
         // update class
         const updatedClass = await Class.update(class_id, {
+            ...req.body,
             id: class_id,
-            instructor_id: id,
-            ...req.body
+            instructor_id: id
         });
-        res.status(200).json(updatedClass);
+        res.json(updatedClass);
     } catch (error) {
         next(error);
     }
@@ -119,7 +117,7 @@ router.get('/:id/classes/:class_id/clients', async (req, res, next) => {
 
         // get clients from class with class_id
         const clients = await Class.findClients(class_id);
-        res.status(200).json(clients);
+        res.json(clients);
     } catch (error) {
         next(error);
     }

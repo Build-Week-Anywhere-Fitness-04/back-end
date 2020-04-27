@@ -3,6 +3,11 @@
 > ## https://fitness-anywhere.herokuapp.com/
 
 # Auth
+`Testing users:`
+-               | username      | password      |
+--------------- | ------------- | ------------- |
+**instructor**  | michaelscott  | bestbossever  |
+**client**      | ryanhoward    | forevertemp   |
 
 ## - Instructor and Client register and login routes
 
@@ -45,7 +50,6 @@ Returns:
 <br />
 
 > ## All the following routes require **`token`**
-<br />
 
 # Classes routes
 
@@ -76,21 +80,52 @@ Returns:
 ## - Return specific class
 >#### GET /api/classes/:id
 ```
-not implemented yet
+{
+    "id": <integer>,
+    "instructor_id": <integer>,
+    "name": <string>,
+    "type": <string>,
+    "start_time": <string>, // format: "2020-05-02 07:00"
+    "location": <string>,
+    "intensity": <string>, // enum type: ['1','2','3','4','5']
+    "status": <string>, // enum type: ['CONFIRMED','CANCELED']
+    "price": <decimal>,
+    "description": <string> || null,
+    "duration": <integer> || null, // minutes
+    "max_class_size": <integer> || null
+}
 ```
 <br />
 
 ## - Return intructor from specific class
 >#### GET /api/classes/:id/instructor
 ```
-not implemented yet
+Returns:
+{
+    "id": <integer>,
+    "username": <string>,
+    "first_name": <string>,
+    "last_name": <string>,
+    "email": <string>,
+    "phone": <string> || null
+}
 ```
 <br />
 
 ## - Return clients from specific class
 >#### GET /api/classes/:id/clients
 ```
-not implemented yet
+[
+    {
+        "id": <integer>,
+        "username": <string>,
+        "first_name": <string>,
+        "last_name": <string>,
+        "email": <string>,
+        "phone": <string> || null
+    },
+    ...
+]
 ```
 <br />
 
@@ -131,7 +166,6 @@ Returns:
 <br />
 
 > ## All the following routes require **`instructor token`**
-<br />
 
 ## - Update instructor
 >#### PUT /api/instructors/:id/
@@ -295,7 +329,6 @@ returns:
 # Clients routes
 
 > ## All the following routes require **`client token`**
-<br />
 
 ## - Return all clients
 >#### GET /api/clients

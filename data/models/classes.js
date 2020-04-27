@@ -34,6 +34,13 @@ const findClients = class_id => (
         .select('client_id as id', 'username', 'first_name', 'last_name', 'email', 'phone')
 );
 
+const findInstructor = class_id => (   
+    db('classes').where('classes.id', '=', class_id)
+        .join('instructors as i', 'i.id', '=', 'classes.instructor_id')
+        .select('i.id', 'i.username', 'i.first_name', 'i.last_name', 'i.email', 'i.phone')
+        .first()
+)
+
 module.exports = {
     findAll,
     findBy,
@@ -42,5 +49,6 @@ module.exports = {
     remove,
     update,
     registerClient,
-    findClients
+    findClients,
+    findInstructor
 }
