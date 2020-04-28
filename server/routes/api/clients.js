@@ -7,7 +7,7 @@ const passportConf = require('../../passport')
 // midlewares
 const verifyId = require('../../middleware/verifyClientId');
 const verifyClassId = require('../../middleware/verifyClassId');
-const verifyIdPermissionToClassId = require('../../middleware/verifyIdPermissionToClassId');
+const verifyClientPermissionToClass = require('../../middleware/verifyClientPermissionToClass');
 const verifyClientToken = require('../../middleware/verifyClientToken');
 
 // Middleware that guarantees user logged in is a client
@@ -15,7 +15,7 @@ router.use('/', verifyClientToken);
 
 router.use('/:id', verifyId);
 router.use('/:id/classes/:class_id', verifyClassId);
-router.use('/:id/classes/:class_id', verifyIdPermissionToClassId);
+router.use('/:id/classes/:class_id', verifyClientPermissionToClass);
 
 // Facebook OAuth Router
 router.route('/oauth/facebook')
