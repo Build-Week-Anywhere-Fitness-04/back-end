@@ -1,3 +1,4 @@
+const JWT = require('jsonwebtoken');
 const router = require('express').Router();
 const bcrypt = require('bcryptjs');
 const generateToken = require('../../../utils/generateToken');
@@ -47,6 +48,8 @@ router.post('/register', async (req, res, next) => {
         next(error);
     }
 });
+
+
 
 // @route   /api/auth/clients/login
 // @desc    Client login
