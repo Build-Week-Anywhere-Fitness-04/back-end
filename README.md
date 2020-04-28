@@ -221,6 +221,7 @@ expects:
     description: <string>, (Optional)
     duration: <integer>, (Optional) // minutes
     max_class_size: <integer> (Optional)
+    image_url: <string> (Optional)
 }
 ```
 ```
@@ -238,6 +239,7 @@ returns:
     "description": <string> || null,
     "duration": <integer> || null, // minutes
     "max_class_size": <integer> || null
+    "image_url": <string> || null
 }
 ```
 <br />
@@ -259,6 +261,7 @@ returns:
     "description": <string> || null,
     "duration": <integer> || null, // minutes
     "max_class_size": <integer> || null
+    "image_url": <string> || null
 }
 ```
 <br />
@@ -278,6 +281,7 @@ expects:
     description: <string>, (Optional)
     duration: <integer>, (Optional) // minutes
     max_class_size: <integer> (Optional)
+    image_url: <string> (Optional)
 }
 ```
 ```
@@ -295,6 +299,7 @@ returns:
     "description": <string> || null,
     "duration": <integer> || null, // minutes
     "max_class_size": <integer> || null
+    "image_url": <string> || null
 }
 ```
 <br />
