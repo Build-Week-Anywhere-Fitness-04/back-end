@@ -6,7 +6,7 @@ const Class = require('../../../data/models/classes');
 const verifyId = require('../../middleware/verifyInstructorId');
 const verifyClassId = require('../../middleware/verifyClassId');
 const verifyClassFields = require('../../middleware/verifyClassRequiredFields');
-const verifyIdPermissionToClassId = require('../../middleware/verifyIdPermissionToClassId');
+const verifyInstructorPermissionToClass = require('../../middleware/verifyInstructorPermissionToClass');
 const verifyInstructorToken = require('../../middleware/verifyInstructorToken');
 
 // @route   GET /api/instructors
@@ -33,7 +33,7 @@ router.get('/:id', async (req, res, next) => {
 
 // Middlewares
 router.use('/:id/classes/:class_id', verifyClassId);
-router.use('/:id/classes/:class_id', verifyIdPermissionToClassId);
+router.use('/:id/classes/:class_id', verifyInstructorPermissionToClass);
 // Middleware that guarantees user logged in is an instructor
 router.use('/', verifyInstructorToken);
 // Verify if its a valid ID and if it matches with logged instructor ID
