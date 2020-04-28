@@ -39,6 +39,47 @@ router.use('/', verifyInstructorToken);
 // Verify if its a valid ID and if it matches with logged instructor ID
 router.use('/:id', verifyId);
 
+// @route   DELETE /api/instructors/:id
+// @desc    Delete a instructor
+router.delete('/:id', async (req, res, next) => {
+    try {
+        await Instructor.remove(req.params.id);
+        res.json({
+            message: 'Instructor removed successfully'
+        });
+    } catch (error) {
+        next(error);
+    }
+});
+
+// @route   PUT /api/instructors/:id
+// @desc    Update instructor
+router.put('/:id', async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        
+        // required fields
+        const { username, first_name, last_name, email, phone } = req.body;
+        if (!username || !first_name || !last_name || !email) {
+            return res.status(401).json({
+                errorMessage: 'Missing required field'
+            });
+        }
+        
+        const instructor = await Instructor.update(id, {
+            username,
+            first_name,
+            last_name,
+            email,
+            phone: phone || null
+        });
+    
+        res.json(instructor);
+    } catch (error) {
+        next(error);
+    }
+});
+
 // @route   GET /api/instructors/:id/classes
 // @desc    Return all classes by instructor
 router.get('/:id/classes', async (req, res, next) => {
