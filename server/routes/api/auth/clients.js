@@ -82,7 +82,10 @@ router.post('/login', async (req, res, next) => {
             }
         });
 
-        res.json({token});
+        res.json({
+            token,
+            id: client.id
+        });
     } catch (error) {
         next(err);
     }

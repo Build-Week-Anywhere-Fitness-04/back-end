@@ -44,7 +44,8 @@ Expects:
 
 Returns:
 {
-    "token": <string>
+    "token": <string>,
+    "id": <integer>
 }
 ```
 <br />
