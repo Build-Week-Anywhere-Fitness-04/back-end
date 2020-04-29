@@ -49,7 +49,18 @@ router.post('/register', async (req, res, next) => {
     }
 });
 
+// Redirects user to Facebook for authentication. When complete,
+// Facebook will redirect the user back to the application at 
+//   /auth/facebook/callback
+app.get('/auth/facebook', paspport.authenticate('facebook'));
 
+// Facebook will redirect the user to thus URL after approval. Finish the
+// authentication process by attempting to btain an access token. If
+// access was granted, the user will be logged in. Otherwise,
+// authentication was failed
+app.get('/auth/facebook/callback', 
+passport.authenticate('facebook', { successRedirect: '/',
+                                    failureRedirect: '/login'}))
 
 // @route   /api/auth/clients/login
 // @desc    Client login
