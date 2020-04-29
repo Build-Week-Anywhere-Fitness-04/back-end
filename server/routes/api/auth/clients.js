@@ -50,7 +50,6 @@ router.post('/register', async (req, res, next) => {
 });
 
 
-
 // @route   /api/auth/clients/login
 // @desc    Client login
 router.post('/login', async (req, res, next) => {
