@@ -13,7 +13,7 @@ describe('Test instructors auth routes', () => {
         phone: '7020000000'
     }
 
-    beforeEach(async () => {
+    afterEach(async () => {
         await db("instructors").truncate(); // empty the table and reset the id back to 1
     });
 
@@ -24,14 +24,31 @@ describe('Test instructors auth routes', () => {
                 .send(test_user);
             expect(res.status).toBe(201);
         });
+
+        it('should not return 201 status when missing required field', async () => {
+            const res = await request(server)
+                .post('/api/auth/instructors/register')
+                .send({
+                    username: 'newuserfromtesting',
+                    password: '321654987',
+                    first_name: 'Fabricio',
+                    last_name: 'Bezerra',
+                    // email: 'test@test.com',
+                    phone: '7020000000'
+                });
+            expect(res.status).not.toBe(201);
+            expect(Object.keys(res.body).includes('errorMessage')).toBe(true);
+        });
     });
 
     describe('POST /api/auth/instructors/login', () => {
         it('should return 200 status after login', async () => {
+            // register
             let res = await request(server)
                 .post('/api/auth/instructors/register')
                 .send(test_user);
 
+            // login
             res = await request(server)
                 .post('/api/auth/instructors/login')
                 .send({
