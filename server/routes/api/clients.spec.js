@@ -114,4 +114,37 @@ describe('Clients routes', () => {
             expect(resRequest.body.errorMessage).toBe('Logged in client ID does not match with ID passed in URL');
         });
     });
+
+    describe('POST /api/clients/:id/classes', () => {
+        it('checks if it adds class to list of registered classes from user', async () => { 
+            // register
+            let res = await request(server)
+            .post('/api/auth/clients/register')
+            .send(test_user);
+
+            // login
+            res = await request(server)
+            .post('/api/auth/clients/login')
+            .send({
+                username: test_user.username,
+                password: test_user.password
+            });
+
+            const token = res.body.token;
+            const client_id = res.body.id;
+            
+            // send request with authorization
+            res = await request(server)
+                .post(`/api/clients/${client_id}/classes`)
+                .set({ 'authorization': token })
+                .send({ class_id: 1 });
+
+            // check status code
+            expect(res.status).toBe(200);
+
+            const dbClassClients = await db('class_clients').where({ client_id, class_id: 1 });
+            expect(dbClassClients).toHaveLength(1);
+            
+        });
+    });
 });
