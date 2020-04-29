@@ -17,10 +17,6 @@ router.use('/:id', verifyId);
 router.use('/:id/classes/:class_id', verifyClassId);
 router.use('/:id/classes/:class_id', verifyClientPermissionToClass);
 
-// Facebook OAuth Router
-router.route('/oauth/facebook')
-.post(passport.authenticate('facebookToken', { session: false }),)
-
 
 // @route   GET /api/clients
 // @desc    Return all clients
