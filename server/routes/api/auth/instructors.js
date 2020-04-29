@@ -87,7 +87,7 @@ router.post('/login', async (req, res, next) => {
             id: instructor.id
         });
     } catch (error) {
-        next(err);
+        next(error);
     }
 });
 

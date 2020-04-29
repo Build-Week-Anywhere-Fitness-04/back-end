@@ -1,6 +1,9 @@
 const router = require('express').Router();
 const Client = require('../../../data/models/clients');
 const Class = require('../../../data/models/classes');
+// OAuth imports
+const passport = require('passport');
+const passportConf = require('../../passport')
 // midlewares
 const verifyId = require('../../middleware/verifyClientId');
 const verifyClassId = require('../../middleware/verifyClassId');
@@ -13,6 +16,10 @@ router.use('/', verifyClientToken);
 router.use('/:id', verifyId);
 router.use('/:id/classes/:class_id', verifyClassId);
 router.use('/:id/classes/:class_id', verifyClientPermissionToClass);
+
+// Facebook OAuth Router
+router.route('/oauth/facebook')
+.post(passport.authenticate('facebookToken', { session: false }),)
 
 
 // @route   GET /api/clients
