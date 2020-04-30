@@ -1,6 +1,10 @@
 const router = require('express').Router();
+
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+
 const Client = require('../../../data/models/clients');
 const Class = require('../../../data/models/classes');
+const Instructor = require('../../../data/models/instructors');
 // midlewares
 const verifyId = require('../../middleware/verifyClientId');
 const verifyClassId = require('../../middleware/verifyClassId');
@@ -128,6 +132,42 @@ router.delete('/:id/classes/:class_id', async (req, res, next) => {
         await Client.removeClass(id, class_id);
         res.json({
             message: 'Class successfully deleted'
+        });
+    } catch (error) {
+        next(error);
+    }
+});
+
+// @route   GET /api/clients/:id/classes/:class_id/payment
+// @desc    Pay for a class
+router.get('/:id/classes/:class_id/payment', async (req, res, next) => {
+    try {
+        const instructor_id = req.class.instructor_id;
+        const instructor = await Instructor.findById(instructor_id);
+
+        if (!req.class.price) {
+            return res.status(401).json({
+                errorMessage: 'The selected class has no charge'
+            });
+        }
+
+        if (!instructor.stripe_account_id) {
+            return res.status(401).json({
+                errorMessage: 'The instructor of the selected class has not set up automatic payments'
+            });
+        }
+
+        const paymentIntent = await stripe.paymentIntents.create({
+            payment_method_types: ['card'],
+            amount: req.class.price + 1 * 100,
+            currency: 'usd',
+            transfer_data: {
+                destination: instructor.stripe_account_id,
+            },
+        }).then(function(paymentIntent) {
+            res.json({
+                client_secret: paymentIntent.client_secret
+            });
         });
     } catch (error) {
         next(error);
