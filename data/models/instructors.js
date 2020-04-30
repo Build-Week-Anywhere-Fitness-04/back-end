@@ -20,6 +20,10 @@ const update = async (id, changes) => {
 
 const findClasses = instructor_id => db('classes').where({ instructor_id });
 
+const addStripeAccountId = (instructor_id, stripe_account_id) => (
+    db('instructors').where({id: instructor_id}).update({stripe_account_id}, '*')
+)
+
 module.exports = {
     findAll,
     findBy,
@@ -27,5 +31,6 @@ module.exports = {
     add,
     remove,
     update,
-    findClasses
+    findClasses,
+    addStripeAccountId
 }
