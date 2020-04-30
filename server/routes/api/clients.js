@@ -161,7 +161,6 @@ router.get('/:id/classes/:class_id/payment', async (req, res, next) => {
             payment_method_types: ['card'],
             amount: req.class.price + 1 * 100,
             currency: 'usd',
-            // application_fee_amount: 123,
             transfer_data: {
                 destination: instructor.stripe_account_id,
             },
