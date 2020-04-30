@@ -33,7 +33,8 @@ router.post('/register', async (req, res, next) => {
         }
 
         // Hash password with bcrypt
-        const hash = bcrypt.hashSync(password, 12);
+        const saltRounds = parseInt(process.env.BCRYPT_SALT_ROUNDS);
+        const hash = bcrypt.hashSync(password, saltRounds);
 
         client = await Client.add({
             ...req.body,
