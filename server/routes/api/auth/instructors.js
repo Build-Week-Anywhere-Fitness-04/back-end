@@ -125,6 +125,12 @@ router.get('/stripe/connect/', async (req, res, next) => {
                 // save stripe_account_id in instructors DB
                 const instructor = await Instructor.addStripeAccountId(instructor_id, stripe_account_id);
 
+                const token = generateToken({
+                    instructor: {
+                        id: instructor_id
+                    }
+                });
+                
                 return res.json(instructor);
             },
             (err) => {
