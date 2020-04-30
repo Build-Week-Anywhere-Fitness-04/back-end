@@ -4,10 +4,10 @@
 
 # Auth
 `Testing users:`
-|               | username      | password      |
---------------- | ------------- | ------------- |
-**instructor**  | michaelscott  | bestbossever  |
-**client**      | ryanhoward    | forevertemp   |
+|               | username       | password     |
+--------------- | -------------- | ------------ |
+**instructor**  | testinstructor | test123      |
+**client**      | testclient     | test123      |
 
 ## - Instructor and Client register and login routes
 
@@ -446,7 +446,8 @@ Returns:
         "price": <integer>,
         "description": <string> || null,
         "duration": <integer> || null, // minutes
-        "max_class_size": <integer> || null
+        "max_class_size": <integer> || null,
+        "image_url": <string> || null
     },
     ...
 ]
@@ -469,7 +470,8 @@ Returns:
     "price": <integer>,
     "description": <string> || null,
     "duration": <integer> || null, // minutes
-    "max_class_size": <integer> || null
+    "max_class_size": <integer> || null,
+    "image_url": <string> || null
 }
 ```
 <br />
