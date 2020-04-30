@@ -21,11 +21,13 @@ const update = async (id, changes) => {
 const findClasses = client_id => (
     db('class_clients').where({ client_id })
         .join('classes', 'classes.id', '=', 'class_clients.class_id')
+        .select('classes.*')
 );
 
 const findClassById = (client_id, class_id) => (
     db('class_clients').where({ client_id, class_id })
         .join('classes', 'classes.id', '=', 'class_clients.class_id')
+        .select('classes.*')
         .first()
 )
 
