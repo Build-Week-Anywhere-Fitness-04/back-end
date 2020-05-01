@@ -168,6 +168,12 @@ router.get('/:id/classes/:class_id/payment', async (req, res, next) => {
             res.json({
                 client_secret: paymentIntent.client_secret
             });
+        }).catch(err => {
+            console.dir(err);
+            res.status(500).json({
+                error: err,
+                errorMessage: err.message
+            });
         });
     } catch (error) {
         next(error);
