@@ -159,7 +159,7 @@ router.get('/:id/classes/:class_id/payment', async (req, res, next) => {
 
         const paymentIntent = await stripe.paymentIntents.create({
             payment_method_types: ['card'],
-            amount: req.class.price + 1 * 100,
+            amount: req.class.price * 100,
             currency: 'usd',
             transfer_data: {
                 destination: instructor.stripe_account_id,
