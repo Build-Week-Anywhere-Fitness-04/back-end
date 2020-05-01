@@ -14,11 +14,15 @@ const add = async client => {
 const remove = id => db('instructors').where({ id }).del();
 
 const update = async (id, changes) => {
-    const [resId] = await db('instructors').where({ id }).update(changes, 'id');
-    return findById(resId);
+    await db('instructors').where({ id }).update(changes, 'id');
+    return findById(id);
 }
 
 const findClasses = instructor_id => db('classes').where({ instructor_id });
+
+const addStripeAccountId = (instructor_id, stripe_account_id) => (
+    db('instructors').where({id: instructor_id}).update({stripe_account_id}, '*')
+)
 
 module.exports = {
     findAll,
@@ -27,5 +31,6 @@ module.exports = {
     add,
     remove,
     update,
-    findClasses
+    findClasses,
+    addStripeAccountId
 }

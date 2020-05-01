@@ -6,7 +6,7 @@ const Class = require('../../../data/models/classes');
 const verifyId = require('../../middleware/verifyInstructorId');
 const verifyClassId = require('../../middleware/verifyClassId');
 const verifyClassFields = require('../../middleware/verifyClassRequiredFields');
-const verifyIdPermissionToClassId = require('../../middleware/verifyIdPermissionToClassId');
+const verifyInstructorPermissionToClass = require('../../middleware/verifyInstructorPermissionToClass');
 const verifyInstructorToken = require('../../middleware/verifyInstructorToken');
 
 // @route   GET /api/instructors
@@ -33,11 +33,52 @@ router.get('/:id', async (req, res, next) => {
 
 // Middlewares
 router.use('/:id/classes/:class_id', verifyClassId);
-router.use('/:id/classes/:class_id', verifyIdPermissionToClassId);
+router.use('/:id/classes/:class_id', verifyInstructorPermissionToClass);
 // Middleware that guarantees user logged in is an instructor
 router.use('/', verifyInstructorToken);
 // Verify if its a valid ID and if it matches with logged instructor ID
 router.use('/:id', verifyId);
+
+// @route   DELETE /api/instructors/:id
+// @desc    Delete a instructor
+router.delete('/:id', async (req, res, next) => {
+    try {
+        await Instructor.remove(req.params.id);
+        res.json({
+            message: 'Instructor removed successfully'
+        });
+    } catch (error) {
+        next(error);
+    }
+});
+
+// @route   PUT /api/instructors/:id
+// @desc    Update instructor
+router.put('/:id', async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        
+        // required fields
+        const { username, first_name, last_name, email, phone } = req.body;
+        if (!username || !first_name || !last_name || !email) {
+            return res.status(401).json({
+                errorMessage: 'Missing required field'
+            });
+        }
+        
+        const instructor = await Instructor.update(id, {
+            username,
+            first_name,
+            last_name,
+            email,
+            phone: phone || null
+        });
+    
+        res.json(instructor);
+    } catch (error) {
+        next(error);
+    }
+});
 
 // @route   GET /api/instructors/:id/classes
 // @desc    Return all classes by instructor

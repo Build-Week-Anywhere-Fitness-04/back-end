@@ -4,10 +4,10 @@
 
 # Auth
 `Testing users:`
-|               | username      | password      |
---------------- | ------------- | ------------- |
-**instructor**  | michaelscott  | bestbossever  |
-**client**      | ryanhoward    | forevertemp   |
+|               | username       | password     |
+--------------- | -------------- | ------------ |
+**instructor**  | testinstructor | test123      |
+**client**      | testclient     | test123      |
 
 ## - Instructor and Client register and login routes
 
@@ -44,7 +44,8 @@ Expects:
 
 Returns:
 {
-    "token": <string>
+    "token": <string>,
+    "id": <integer>
 }
 ```
 <br />
@@ -170,14 +171,36 @@ Returns:
 ## - Update instructor
 >#### PUT /api/instructors/:id/
 ```
-not implemented yet
+Expects:
+{
+    username: <string>,
+    first_name: <string>,
+    last_name: <string>,
+    email: <string>,
+    phone: <string> // (Optional)
+}
+```
+```
+Returns:
+{
+    "id": <integer>,
+    "username": <string>,
+    "password": <string>,
+    "first_name": <string>,
+    "last_name": <string>,
+    "email": <string>,
+    "phone":  || null
+}
 ```
 <br />
 
 ## - Delete instructor
 >#### DELETE /api/instructors/:id/
 ```
-not implemented yet
+Returns:
+{
+    "message": "Instructor removed successfully"
+}
 ```
 <br />
 
@@ -220,6 +243,7 @@ expects:
     description: <string>, (Optional)
     duration: <integer>, (Optional) // minutes
     max_class_size: <integer> (Optional)
+    image_url: <string> (Optional)
 }
 ```
 ```
@@ -237,6 +261,7 @@ returns:
     "description": <string> || null,
     "duration": <integer> || null, // minutes
     "max_class_size": <integer> || null
+    "image_url": <string> || null
 }
 ```
 <br />
@@ -258,6 +283,7 @@ returns:
     "description": <string> || null,
     "duration": <integer> || null, // minutes
     "max_class_size": <integer> || null
+    "image_url": <string> || null
 }
 ```
 <br />
@@ -277,6 +303,7 @@ expects:
     description: <string>, (Optional)
     duration: <integer>, (Optional) // minutes
     max_class_size: <integer> (Optional)
+    image_url: <string> (Optional)
 }
 ```
 ```
@@ -294,6 +321,7 @@ returns:
     "description": <string> || null,
     "duration": <integer> || null, // minutes
     "max_class_size": <integer> || null
+    "image_url": <string> || null
 }
 ```
 <br />
@@ -418,7 +446,8 @@ Returns:
         "price": <integer>,
         "description": <string> || null,
         "duration": <integer> || null, // minutes
-        "max_class_size": <integer> || null
+        "max_class_size": <integer> || null,
+        "image_url": <string> || null
     },
     ...
 ]
@@ -441,7 +470,8 @@ Returns:
     "price": <integer>,
     "description": <string> || null,
     "duration": <integer> || null, // minutes
-    "max_class_size": <integer> || null
+    "max_class_size": <integer> || null,
+    "image_url": <string> || null
 }
 ```
 <br />

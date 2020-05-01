@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const bcrypt = require('bcryptjs');
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const generateToken = require('../../../utils/generateToken');
 
 const Instructor = require('../../../../data/models/instructors');
@@ -32,7 +33,8 @@ router.post('/register', async (req, res, next) => {
         }
 
         // Hash password with bcrypt
-        const hash = bcrypt.hashSync(password, 12);
+        const saltRounds = parseInt(process.env.BCRYPT_SALT_ROUNDS);
+        const hash = bcrypt.hashSync(password, saltRounds);
 
         instructor = await Instructor.add({
             ...req.body,
@@ -82,8 +84,58 @@ router.post('/login', async (req, res, next) => {
             }
         });
 
-        res.json({token});
+        res.json({
+            token,
+            id: instructor.id
+        });
     } catch (error) {
+        next(error);
+    }
+});
+
+// @route   GET /api/auth/instructors/stripe/connect
+// @desc    Create a new stripe account for instructor
+router.get('/stripe/connect/', async (req, res, next) => {
+   
+    try {
+        const { code, state } = req.query;
+
+        const [instructor_id] = state.split(process.env.STRIPE_STATE_VALUE, 1);
+        console.log('instructor_id: ', instructor_id);
+        if (!instructor_id) {
+            return res.status(401).json({
+                errorMessage: 'Instructor ID not found in state query'
+            });
+        }
+
+        if (state != `${instructor_id}${process.env.STRIPE_STATE_VALUE}`) {
+            return res.status(401).json({
+                errorMessage: 'Incorrect state parameter'
+            });
+        }
+
+        // Send the authorization code to Stripe's API.
+        stripe.oauth.token({
+            grant_type: 'authorization_code',
+            code
+        }).then(
+            async (response) => {
+                const stripe_account_id = response.stripe_user_id;
+
+                // save stripe_account_id in instructors DB
+                const instructor = await Instructor.addStripeAccountId(instructor_id, stripe_account_id);
+               
+                res.redirect(`https://anywherefitness04.netlify.app/account/instructor/${instructor_id}/profile`);
+            },
+            (err) => {
+                if (err.type === 'StripeInvalidGrantError') {
+                    return res.status(400).json({error: 'Invalid authorization code: ' + code});
+                } else {
+                    return res.status(500).json({error: 'An unknown error occurred.'});
+                }
+            }
+        );
+    } catch(err) {
         next(err);
     }
 });

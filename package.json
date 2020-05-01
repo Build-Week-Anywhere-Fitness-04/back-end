@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon index.js",
-    "start": "node index.js"
+    "start": "node index.js",
+    "test": "cross-env NODE_ENV=testing jest --watch"
   },
   "repository": {
     "type": "git",
@@ -25,13 +25,18 @@
     "express": "^4.17.1",
     "helmet": "^3.22.0",
     "jsonwebtoken": "^8.5.1",
-    "knex": "^0.21.0",
-    "passport": "^0.4.1",
-    "passport-facebook-token": "^3.3.0",
+    "knex": "^0.21.1",
     "pg": "^8.0.3",
-    "sqlite3": "^4.1.1"
+    "sqlite3": "^4.1.1",
+    "stripe": "^8.47.1"
   },
   "devDependencies": {
-    "nodemon": "^2.0.3"
+    "cross-env": "^7.0.2",
+    "jest": "^25.5.0",
+    "nodemon": "^2.0.3",
+    "supertest": "^4.0.2"
+  },
+  "jest": {
+    "testEnvironment": "node"
   }
 }

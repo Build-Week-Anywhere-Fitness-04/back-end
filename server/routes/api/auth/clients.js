@@ -1,3 +1,4 @@
+const JWT = require('jsonwebtoken');
 const router = require('express').Router();
 const bcrypt = require('bcryptjs');
 const generateToken = require('../../../utils/generateToken');
@@ -32,7 +33,8 @@ router.post('/register', async (req, res, next) => {
         }
 
         // Hash password with bcrypt
-        const hash = bcrypt.hashSync(password, 12);
+        const saltRounds = parseInt(process.env.BCRYPT_SALT_ROUNDS);
+        const hash = bcrypt.hashSync(password, saltRounds);
 
         client = await Client.add({
             ...req.body,
@@ -47,6 +49,8 @@ router.post('/register', async (req, res, next) => {
         next(error);
     }
 });
+
+
 
 // @route   /api/auth/clients/login
 // @desc    Client login
@@ -82,7 +86,10 @@ router.post('/login', async (req, res, next) => {
             }
         });
 
-        res.json({token});
+        res.json({
+            token,
+            id: client.id
+        });
     } catch (error) {
         next(err);
     }
