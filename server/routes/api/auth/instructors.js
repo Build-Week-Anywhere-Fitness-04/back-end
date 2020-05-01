@@ -125,7 +125,7 @@ router.get('/stripe/connect/', async (req, res, next) => {
                 // save stripe_account_id in instructors DB
                 const instructor = await Instructor.addStripeAccountId(instructor_id, stripe_account_id);
                
-                return res.redirect(`https://anywherefitness04.netlify.app/account/instructor/${instructor_id}/profile`);
+                res.redirect(`https://anywherefitness04.netlify.app/account/instructor/${instructor_id}/profile`);
             },
             (err) => {
                 if (err.type === 'StripeInvalidGrantError') {
