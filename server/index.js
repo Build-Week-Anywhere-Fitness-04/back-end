@@ -17,6 +17,7 @@ server.use('/api/auth/', require('./routes/api/auth'));
 server.use('/api/instructors', auth, require('./routes/api/instructors'));
 server.use('/api/clients', auth, require('./routes/api/clients'));
 server.use('/api/classes', auth, require('./routes/api/classes'));
+server.use('/api/webhooks', require('./routes/api/webhooks'));
 
 server.use(errorMiddleware);
 
