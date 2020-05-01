@@ -123,7 +123,7 @@ router.get('/stripe/connect/', async (req, res, next) => {
                 const stripe_account_id = response.stripe_user_id;
 
                 // save stripe_account_id in instructors DB
-                const instructor = await Instructor.addStripeAccountId(instructor_id, stripe_account_id);
+                const [instructor] = await Instructor.addStripeAccountId(instructor_id, stripe_account_id);
 
                 const token = generateToken({
                     instructor: {
