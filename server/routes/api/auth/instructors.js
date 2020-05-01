@@ -125,7 +125,7 @@ router.get('/stripe/connect/', async (req, res, next) => {
                 // save stripe_account_id in instructors DB
                 const instructor = await Instructor.addStripeAccountId(instructor_id, stripe_account_id);
                
-                res.redirect(`htttp://localhost:3001/account/instructor/${instructor_id}/profile`);
+                return res.redirect(`htttp://localhost:3001/account/instructor/${instructor_id}/profile`);
             },
             (err) => {
                 if (err.type === 'StripeInvalidGrantError') {
